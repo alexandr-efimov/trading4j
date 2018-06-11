@@ -1,11 +1,5 @@
 package de.voidnode.trading4j.examples;
 
-import java.util.List;
-import java.util.Optional;
-
-import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.toList;
-
 import de.voidnode.trading4j.api.Indicator;
 import de.voidnode.trading4j.domain.MarketDirection;
 import de.voidnode.trading4j.domain.marketdata.MarketData;
@@ -15,6 +9,12 @@ import de.voidnode.trading4j.domain.monetary.Price;
 import de.voidnode.trading4j.domain.monetary.PriceUnit;
 import de.voidnode.trading4j.domain.orders.ExecutionCondition;
 import de.voidnode.trading4j.strategyexpertadvisor.TradingStrategy;
+
+import java.util.List;
+import java.util.Optional;
+
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toList;
 
 /**
  * A trading strategy based on multiple moving averages indicating a trend in the same direction.
@@ -75,12 +75,12 @@ class NMovingAveragesExpertAdvisor<C extends MarketData & WithOhlc & WithSpread>
             }
         });
 
-        detectSignalAndAllignment(nextFast, nextSlow);
+        detectSignalAndAlignment(nextFast, nextSlow);
         entry = Optional.of(candle.getClose());
         lastSlow = nextSlow;
     }
 
-    private void detectSignalAndAllignment(final List<Optional<Price>> nextFast, final Optional<Price> nextSlow) {
+    private void detectSignalAndAlignment(final List<Optional<Price>> nextFast, final Optional<Price> nextSlow) {
         final boolean allPresent = allPresent(nextFast, nextSlow);
         final MaAlignment alignment;
         if (allPresent && orderedDescending(nextSlow, nextFast)) {

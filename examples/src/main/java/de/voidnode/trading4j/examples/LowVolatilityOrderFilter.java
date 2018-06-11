@@ -1,7 +1,5 @@
 package de.voidnode.trading4j.examples;
 
-import java.util.Optional;
-
 import de.voidnode.trading4j.api.Failed;
 import de.voidnode.trading4j.api.OrderFilter;
 import de.voidnode.trading4j.domain.Ratio;
@@ -9,6 +7,8 @@ import de.voidnode.trading4j.domain.marketdata.MarketData;
 import de.voidnode.trading4j.domain.marketdata.WithOhlc;
 import de.voidnode.trading4j.domain.monetary.Price;
 import de.voidnode.trading4j.domain.orders.BasicPendingOrder;
+
+import java.util.Optional;
 
 /**
  * Prevents trading when the volatility of the market is too low.
@@ -29,7 +29,7 @@ public class LowVolatilityOrderFilter<C extends MarketData & WithOhlc> implement
      * Initializes an instance with all its dependencies.
      * 
      * @param requiredVolatility
-     *            The volatility required for trades to not beeing blocked relative to the open price of a
+     *            The volatility required for trades to not being blocked relative to the open price of a
      *            {@link MarketData}.
      */
     public LowVolatilityOrderFilter(final Ratio requiredVolatility) {
@@ -43,8 +43,8 @@ public class LowVolatilityOrderFilter<C extends MarketData & WithOhlc> implement
 
     @Override
     public Optional<Failed> filterOrder(final BasicPendingOrder order) {
-        final Price absoluteRequieredVolatility = candleStick.getOpen().multiply(requiredVolatility);
-        if (candleStick.getVolatility().isLessThan(absoluteRequieredVolatility)) {
+        final Price absoluteRequiredVolatility = candleStick.getOpen().multiply(requiredVolatility);
+        if (candleStick.getVolatility().isLessThan(absoluteRequiredVolatility)) {
             return BLOCKED;
         }
         return Optional.empty();

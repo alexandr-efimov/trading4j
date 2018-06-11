@@ -21,7 +21,7 @@ import de.voidnode.trading4j.strategyexpertadvisor.TradingStrategy;
 
 /**
  * Creates trading strategies based on three moving averages indicating a trend in the same direction.
- * 
+ *
  * @author Raik Bieniek
  */
 public final class NMovingAveragesExpertAdvisorFactory {
@@ -32,13 +32,12 @@ public final class NMovingAveragesExpertAdvisorFactory {
 
     /**
      * Creates a new strategy.
-     * 
-     * @param broker
-     *            Used to execute the orders produced by this expert advisor.
+     *
+     * @param broker Used to execute the orders produced by this expert advisor.
      * @return The created expert advisor.
      */
     public static ExpertAdvisor<FullMarketData<M1>> createNew(final Broker<BasicPendingOrder> broker) {
-        
+
         // Create indicators needed for the trading strategy. Trading4j already implements some well-known indicators
         // but it is also easy to implement new ones.
         final MovingAverageIndicatorFactory mAFactory = new MovingAverageIndicatorFactory();
@@ -64,16 +63,14 @@ public final class NMovingAveragesExpertAdvisorFactory {
         // opened order". This state machine is used in the following line. Using this implementation is fully optional.
         // It is also possible to implement the ExpertAdvisor interface without using it.
         final ExpertAdvisor<FullMarketData<M5>> expertAdvisor = new StrategyExpertAdvisor<>(strategy, filteringBroker);
-        
+
         // Like the expert advisor, the order filtering broker needs the current market data too so the following combines both.
         final ExpertAdvisor<FullMarketData<M5>> combinedExpertAdvisor = new MarketDataDistributor<>(filteringBroker, expertAdvisor);
-        
+
         // Until now everything was configured to use market data with a time frame M5. The provided market data will be
         // of time frame M1. Therefore the following will aggregate market data of the time frame M1 to market data of
         // the time frame M5 before it is passed to the expert advisor and order filter configured above.
-        final ExpertAdvisor<FullMarketData<M1>> convertedExpertAdvisor = new TimeFrameConvertingExpertAdvisor<>(
+        return new TimeFrameConvertingExpertAdvisor<>(
                 combinedExpertAdvisor, new FullMarketDataTimeFrameConverter<>(new M1(), new M5()));
-        
-        return convertedExpertAdvisor;
     }
 }
