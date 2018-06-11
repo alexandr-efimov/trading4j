@@ -1,3 +1,8 @@
+# Fork purpose
+The main idea of fork - is to create flexible and comfortable way to implement Java based trading advisors compatible 
+with MetaTrader 5. 
+
+# Original repo doc
 # Trading4j
 Trading4j is a library that allows to write automated expert advisors for Forex trading. The library promotes writing code that is reusable across different expert advisors by clearly separating between different aspects of expert advisor programming. In Trading4j these aspects are strategies, indicators, money management and order filtering.
 
